@@ -11,5 +11,5 @@ script:
   - yarn lint
   - yarn test
 
-after_success:
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then bin/docker-build-and-deploy.sh; fi
+#after_success:
+#  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then bin/docker-build-and-deploy.sh; fi
