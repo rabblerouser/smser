@@ -41,6 +41,7 @@ describe('sendSMS', () => {
 
     it('publishes an event for a successful SMS', () => sendSMS(smsEvent).then(() => {
       expect(streamClient.publish).to.have.been.calledWith('sms-sent', {
+        from: 'ROUSER',
         to: '+61491570156',
         message: 'Important notice from Rabble Rouser',
       });
