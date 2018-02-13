@@ -1,0 +1,9 @@
+FROM node:8-alpine
+
+RUN mkdir /app
+WORKDIR /app
+
+COPY ./package.json ./
+
+RUN yarn
+VOLUME /app/node_modules

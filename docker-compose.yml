@@ -1,0 +1,34 @@
+version: '2'
+services:
+  smser:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - '.:/app'
+    ports:
+      - "3001:3001"
+    links:
+      - sns
+    depends_on:
+      - kinesis
+      - sns
+      - event-forwarder
+    environment:
+      NODE_ENV: development
+      KINESIS_ENDPOINT: http://kinesis:4567
+      SNS_ENDPOINT: http://sns:9292
+      LISTENER_AUTH_TOKEN: secret
+      STREAM_NAME: rabblerouser_stream
+    command: yarn dev
+  event-forwarder:
+    image: rabblerouser/event-forwarder
+    environment:
+      KINESIS_ENDPOINT: http://kinesis:4567
+      LISTENER_ENDPOINT: http://smser:3001/events
+      LISTENER_AUTH_TOKEN: secret
+      STREAM_NAME: rabblerouser_stream
+  kinesis:
+    image: instructure/kinesalite
+  sns:
+    image: ineffyble/fake_sns_sms
